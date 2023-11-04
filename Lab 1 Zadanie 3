@@ -1,0 +1,75 @@
+using System;
+using System.Collections;
+
+namespace ConsoleApp1
+{
+    internal class Tablica 
+    {
+        static void Main(string[] args)
+        {
+            double[] arr = new double[10];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine("Podaj wartość # {0} do tablicy:",(i));
+                arr[i] = Convert.ToDouble(Console.ReadLine());
+            }
+            Console.Clear();
+            do {
+                Console.Clear();
+
+                Console.WriteLine("Wybierz operacje:");
+                Console.WriteLine("1. Wyświetlanie tablicy od pierwszego do ostatniego indeksu;");
+                Console.WriteLine("2. Wyświetlanie tablicy od ostatniego do pierwszego indeksu;");
+                Console.WriteLine("3. Wyświetlanie elementów o nieparzystych indeksach;");
+                Console.WriteLine("4. Wyświetlanie elementów o parzystych indeksach;"); ;
+                Console.WriteLine("5. Wyjscie.");
+                Console.Write("Twoj wybor: ");
+
+                double Opcja = Convert.ToInt32(Console.ReadLine());
+
+                switch (Opcja)
+                {
+                    case 1:
+                        foreach (double i in arr)
+                        {
+                            Console.Write(i + " ");
+                        }
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        for (int i = (arr.Length - 1); i > 0; i--)
+                        {
+                            Console.WriteLine(arr[i]);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        int j = 1;
+                        while (j < arr.Length + 1)
+                        {
+                            Console.WriteLine(arr[j]);
+                            j = j + 2;
+                        }
+                        Console.ReadKey();
+                        break;
+                    case 4:
+                        int k = 2;
+                        while (k < arr.Length + 1)
+                        {
+                            Console.WriteLine(arr[k]);
+                            k = k + 2;
+                        }
+                        Console.ReadKey();
+                        break;
+                    case 5:
+                        Environment.Exit(0);
+                        break;
+                }
+                }while (true);
+            
+
+        }
+
+        
+    }
+}
