@@ -1,0 +1,37 @@
+using System;
+
+namespace ConsoleApp1
+{
+    internal class Delta 
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Podaj a,b,c");
+            double a = Convert.ToDouble(Console.ReadLine());
+            double b = Convert.ToDouble(Console.ReadLine());
+            double c = Convert.ToDouble(Console.ReadLine());
+
+            double disc, x1, x2;
+
+            if (a != 0)
+            {
+                disc = Math.Pow(b, 2) - (4 * a * c);
+                if (disc < 0) Console.WriteLine("Niema rozwiazan bo delta < 0");
+                else if (disc == 0)
+                {
+                    x1 = -b / (2 * a);
+                    Console.WriteLine("x1 = {0}, delta = {1}", x1, disc);
+                }
+                else
+                {
+                    x1 = (-b - Math.Sqrt(disc)) / (2 * a);
+                    x2 = (-b + Math.Sqrt(disc)) / (2 * a);
+                    Console.WriteLine("x1 = {0}, x2 = {1}, Delta = {2}", x1, x2, disc);
+
+                }
+            }
+            else Console.WriteLine("'a' nie może być równa 0");
+
+        }
+    }
+}
