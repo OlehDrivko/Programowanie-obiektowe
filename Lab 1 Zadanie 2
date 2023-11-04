@@ -1,0 +1,98 @@
+using System;
+using System.Collections;
+
+namespace ConsoleApp1
+{
+    internal class Calculator 
+    {
+        static void Main(string[] args)
+        {
+            Calculator1();
+        }
+        static void Menu()
+        { // Menu wyboru 
+            Console.WriteLine("Wybierz operacje:");
+            Console.WriteLine("1. Suma;");
+            Console.WriteLine("2. Roznica;");
+            Console.WriteLine("3. Iloczyn;");
+            Console.WriteLine("4. Iloraz;");
+            Console.WriteLine("5. Potega;");
+            Console.WriteLine("6. Pierwiastek kwadratowy;");
+            Console.WriteLine("7. Trygonometria;");
+            Console.WriteLine("8. Wyjscie.");
+            Console.Write("Twoj wybor: ");
+        }
+
+        static void Calculator1()
+        {
+            while (true) //Wybór operacji, wyświetlenie menu, czyszczenie konsoli
+            {
+                Console.ReadKey();
+                Console.Clear();
+                Menu();
+                double Operacja = Convert.ToDouble(Console.ReadLine());
+
+                switch ( Operacja )
+                {
+                    case 1: //suma
+                        Console.WriteLine("Podaj wartości");
+                        double FirstValueSuma = Convert.ToDouble(Console.ReadLine());
+                        double SecondValueSuma = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Suma: {0} + {1} = " + (FirstValueSuma + SecondValueSuma), FirstValueSuma, SecondValueSuma);
+                            break;
+                    case 2: //Roznica
+                        Console.WriteLine("Podaj wartości");
+                        double FirstValueRoznica = Convert.ToDouble(Console.ReadLine());
+                        double SecondValueRoznica = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Roznica: {0} - {1} = " + (FirstValueRoznica - SecondValueRoznica), FirstValueRoznica, SecondValueRoznica);
+                        break;
+                    case 3: //Iloczyn
+                        Console.WriteLine("Podaj wartości");
+                        double FirstValueIloczyn = Convert.ToDouble(Console.ReadLine());
+                        double SecondValueIloczyn = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Iloczyn: {0} * {1} = " + (FirstValueIloczyn * SecondValueIloczyn), FirstValueIloczyn, SecondValueIloczyn);
+                        break;
+                    case 4: //Iloraz
+                        Console.WriteLine("Podaj wartości");
+                        double FirstValueIloraz = Convert.ToDouble(Console.ReadLine());
+                        double SecondValueIloraz = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Iloraz: {0} / {1} = " + (FirstValueIloraz / SecondValueIloraz), FirstValueIloraz, SecondValueIloraz);
+                        break;
+                    case 5://Potega
+                        Console.WriteLine("Podaj wartości");
+                        double FirstValuePotega = Convert.ToDouble(Console.ReadLine());
+                        double SecondValuePotega = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine("Potega: {0} ^ {1} = " + (Math.Pow(FirstValuePotega,SecondValuePotega)), FirstValuePotega, SecondValuePotega);
+                        break;
+                    case 6: //Pierwiastek kwadratowy
+                        
+                        Console.WriteLine("Podaj wartości");
+                        double ValuePierwiastek = Convert.ToDouble(Console.ReadLine());
+                        if (ValuePierwiastek < 0){
+                            Console.WriteLine("pierwiastek < 0");
+                            continue;
+                        }
+                        else{
+                            Console.WriteLine("Pierwiastek kwadratowy: {0} = " + Math.Sqrt(ValuePierwiastek), ValuePierwiastek);
+                            break;
+                        }
+                    case 7: //Trygonometria
+                        Console.WriteLine("Podaj wartości");
+                        double Trygonometria = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine($"Sinus kata {Trygonometria} wynosi:" + (Math.Sin(Trygonometria * Math.PI / 180)));
+                        break;
+                    case 8://wejscie
+                        Console.WriteLine("Dziękuję, kalkulator się zamyka.");
+                        Environment.Exit(0);
+                        break;
+                    default: 
+                        Console.WriteLine("Nieprawidlowa opcja!");
+                        break;
+
+
+                }
+            }
+
+        }
+    }
+}
