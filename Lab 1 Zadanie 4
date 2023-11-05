@@ -1,0 +1,81 @@
+using System;
+using System.Collections;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Tablica 
+    {
+        static void Main(string[] args)
+        {
+            double[] arr = new double[10];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine("Podaj wartość # {0} do tablicy:",(i));
+                arr[i] = Convert.ToDouble(Console.ReadLine());
+            }
+            Console.Clear();
+            do {
+                Console.Clear();
+
+                Console.WriteLine("Wybierz operacje:");
+                Console.WriteLine("1. Oblicz sumę elementów tablicy;");
+                Console.WriteLine("2. Oblicz iloczyn elementów tablicy;");
+                Console.WriteLine("3. Wyznacz wartość średnią;");
+                Console.WriteLine("4. Wyznacz wartość minimalną;"); 
+                Console.WriteLine("5. Wyznacz wartość maksymalną;"); 
+                Console.WriteLine("6. Wyjscie.");
+                Console.Write("Twoj wybor: ");
+
+                double Opcja = Convert.ToInt32(Console.ReadLine());
+
+                switch (Opcja)
+                {
+                    case 1:
+                        double suma = 0;
+                        foreach (double i in arr)
+                        {
+                            suma = suma + i;
+                        }
+                        Console.WriteLine("Suma elementów tablicy : " + suma);
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        double iloraz = 1;
+                        for (int i = 0; i < arr.Length; i++)
+                        {
+                            iloraz = iloraz * arr[i];
+                        }
+                        Console.WriteLine("Iloraz elementów tablicy : " + iloraz);
+                        Console.ReadKey();
+                        break;
+                    case 3:
+                        double suma2 = 0;
+                        foreach (double i in arr)
+                        {
+                            suma2 = suma2 + i;
+                        }
+                        Console.WriteLine("Średnia wartość elementów tablicy : " +(suma2/arr.Length));
+                        Console.ReadKey();
+                        break;
+                    case 4:
+                        Console.WriteLine("Minimalna wartość tablicy : " + arr.Min());
+                        Console.ReadKey();
+                        break;
+                    case 5:
+                        Console.WriteLine("Maksymalna wartość tablicy : " + arr.Max());
+                        Console.ReadKey();
+                        break;
+
+                    case 6:
+                        Environment.Exit(0);
+                        break;
+                }
+                }while (true);
+            
+
+        }
+
+        
+    }
+}
