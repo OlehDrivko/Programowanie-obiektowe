@@ -1,0 +1,42 @@
+using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
+
+namespace Zadanie5
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Podaj ilosc liczb: ");
+            double len = Convert.ToDouble(Console.ReadLine());
+            double[] array = new double[(int)len];
+            for (int i = 0; i < len; i++)
+            {
+                Console.WriteLine("Podaj liczbę #{0}", (i+1));
+                array[i] = Convert.ToDouble(Console.ReadLine());
+            }
+
+
+
+            while (true)
+            {
+                for (int i = 0; i < array.Length-1; i++)
+                {
+                    if (array[i] > array[i + 1])
+                    {
+                        (array[i], array[i+1]) = (array[i+1], array[i]);
+                        i = -1;
+                    }
+                    else continue;
+                        
+                }
+                Console.Write("Posortowana lista: ");
+                    for (int j = 0; j < array.Length; j++)
+                    {
+                        Console.Write(array[j] + "; ");
+                    }
+                break;
+            }
+        }
+    }
+}
