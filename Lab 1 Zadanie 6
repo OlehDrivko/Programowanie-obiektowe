@@ -1,0 +1,17 @@
+using System.Runtime.CompilerServices;
+
+namespace Zadanie5
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true) {
+                Console.WriteLine("podaj liczbę całkowitą:");
+                double num = Convert.ToDouble(Console.ReadLine());
+                if (num > 0) continue;
+                else break;
+            }
+        }
+    }
+}
