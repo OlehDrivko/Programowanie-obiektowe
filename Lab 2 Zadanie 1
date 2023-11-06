@@ -1,0 +1,43 @@
+namespace ConsoleApp3
+{
+    internal class Program
+    {
+        public static void Main(string[] args)
+        {
+            Licz num = new(20);
+            Licz num2 = new(-120);
+            num.Dodaj(100);
+            num2.Odejmij(100);
+
+            num.Print();
+            num2.Print();
+        }
+
+
+
+        internal class Licz
+        {
+            double Value;
+
+            public Licz(double Input)
+            {
+                Value = Input;
+            }
+            public double Dodaj(double Input)
+            {
+                Value += Input;
+                return Value;
+            }
+            public double Odejmij(double Input)
+            {
+                Value -= Input;
+                return Value;
+            }
+            public void Print()
+            {
+                Console.WriteLine(Value);
+            }
+
+        }
+    }
+}
