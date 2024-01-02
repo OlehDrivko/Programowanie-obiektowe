@@ -1,0 +1,57 @@
+static void Main()
+{
+
+    int[] liczby = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    Sumator sumator = new(liczby);
+
+
+    Console.WriteLine("Suma calości = "+ sumator.Suma());
+    Console.WriteLine("Suma calości podzielona przez 2 = "+ sumator.SumaPodziel2());
+    Console.WriteLine("Ilość elementów w tablicy: " + sumator.IleElementow());
+    Console.Write("Elementy Tablicy: ");
+    sumator.Print();
+    sumator.Lowhigh();
+}
+public class Sumator
+{
+    private readonly int[] Liczby;
+
+    public Sumator(int[] liczby)
+    {
+        Liczby= liczby;
+    }
+    public int Suma()
+    {
+        return Liczby.Sum();
+    }
+    public int SumaPodziel2()
+    {
+        return Liczby.Where(x => x%2 == 0).Sum();
+    } 
+    public int IleElementow()
+    {
+        int count = Liczby.Length;
+        return count;
+    }
+    public void Print()
+    {
+        for (int i = 0; i < Liczby.Length; i++)
+        {
+            Console.Write(Liczby[i] + "; ") ;
+        }
+    }
+    public void Lowhigh()
+    {
+        Console.WriteLine("Wprowadź indeksy, pomiędzy którymi chcesz zobaczyć wszystkie liczby!");
+        Console.WriteLine("Podaj LowIndex: ");
+        int LowIndex = Convert.ToInt16(Console.ReadLine());
+        Console.WriteLine("Podaj HighIndex: ");
+        int HighIndex = Convert.ToInt16(Console.ReadLine());
+        if (LowIndex < 0) LowIndex = -1;
+        if (HighIndex > Liczby.Length) HighIndex = Liczby.Length;
+        for (int i = LowIndex+1; i < HighIndex; i++)
+        {
+            Console.Write(Liczby[i] + "; ");
+        }
+    }
+}
