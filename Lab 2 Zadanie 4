@@ -1,0 +1,82 @@
+using System;
+using System.Numerics;
+
+public class Liczba
+{
+    private int[] cyfry;
+
+    public Liczba(string wartosc)
+    {
+        UstawLiczbe(wartosc);
+    }
+
+    public void UstawLiczbe(string wartosc)
+    {
+        int dlugosc = wartosc.Length;
+        cyfry = new int[dlugosc];
+
+        for (int i = 0; i < dlugosc; i++)
+        {
+            if (!char.IsDigit(wartosc[i]))
+            {
+                throw new ArgumentException("Podana wartość nie jest liczbą.");
+            }
+
+            cyfry[i] = wartosc[i] - '0';
+        }
+    }
+
+    public void WypiszLiczbe()
+    {
+        foreach (var cyfra in cyfry)
+        {
+            Console.Write(cyfra);
+        }
+
+        Console.WriteLine();
+    }
+
+    public void PomnozPrzez(int mnoznik)
+    {
+        BigInteger wynik = PobierzLiczbeJakoBigInteger() * mnoznik;
+        UstawLiczbe(wynik.ToString());
+    }
+
+    private BigInteger PobierzLiczbeJakoBigInteger()
+    {
+        string liczbaStr = string.Join("", cyfry);
+        return BigInteger.Parse(liczbaStr);
+    }
+
+    public BigInteger Silnia()
+    {
+        BigInteger wynik = 1;
+        BigInteger aktualnaLiczba = PobierzLiczbeJakoBigInteger();
+
+        for (BigInteger i = 1; i <= aktualnaLiczba; i++)
+        {
+            wynik *= i;
+        }
+
+        return wynik;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Przykład użycia
+        Liczba mojaLiczba = new Liczba("10");
+        Console.WriteLine("Wartość liczby:");
+        mojaLiczba.WypiszLiczbe();
+
+        Console.WriteLine("\nMnożenie przez 3:");
+        mojaLiczba.PomnozPrzez(3);
+        mojaLiczba.WypiszLiczbe();
+
+        Console.WriteLine("\nSilnia:");
+        BigInteger silnia = mojaLiczba.Silnia();
+        Console.WriteLine(silnia);
+    }
+}
