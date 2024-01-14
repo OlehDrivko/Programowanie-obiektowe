@@ -1,0 +1,60 @@
+using System.Data;
+
+namespace ConsoleApp6
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Date date = new Date();
+            Console.WriteLine("Menu:");
+            Console.WriteLine("1.Current date");
+            Console.WriteLine("2.Current date +7 days");
+            Console.WriteLine("3.Current date -7 days");
+            int menu = Convert.ToInt32(Console.ReadLine());
+            switch (menu)
+            {
+                case 1:
+                    date.CurrentDate();
+                    break;
+                case 2:
+                    date.AddWeek();
+                    break;
+                case 3:
+                    date.MinusWeek();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        class Date
+        {
+            private DateTime TimeNow;
+
+            public Date()
+            {
+                TimeNow = DateTime.Now.Date;
+            }
+
+            public DateTime CurrentDate() {
+                Console.WriteLine("CurrentDate:" + TimeNow);
+                return TimeNow; }
+            public void AddWeek()
+            {
+                TimeNow = TimeNow.AddDays(7);
+                Console.Write("Data po rzesunieńciu na 7 dni do przodu:" + TimeNow);
+            }
+            public void MinusWeek()
+            {
+                TimeNow = TimeNow.AddDays(-7);
+                Console.Write("Data po rzesunieńciu na 7 dni do tylu:" + TimeNow);
+            }
+
+
+
+        }
+    }
+}
