@@ -1,0 +1,40 @@
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+    }
+    class Sumator
+    {
+        double[] liczby;
+
+        public Sumator(double[] Liczby)
+        {
+            liczby = Liczby;
+        }
+
+        public double Suma()
+        {
+            double suma = 0;
+            foreach (var i in liczby)
+            {
+                suma += i;
+            }
+            return suma;
+        }
+        public double SumaPodziel2()
+        {
+            double suma2 = 0;
+            foreach (var item in liczby)
+            {
+                double a = item % 2; 
+                if (a = 0)
+                {
+
+                }
+            }
+        }
+    } 
+}
