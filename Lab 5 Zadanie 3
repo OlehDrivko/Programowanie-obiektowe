@@ -1,0 +1,35 @@
+using System;
+
+public class SomeClass
+{
+    private int currentInstruction = 0;
+
+    public void CanThrowException()
+    {
+        currentInstruction++;
+        if (new Random().Next(5) == 0)
+        {
+            throw new Exception($"Exception in instruction {currentInstruction}");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        SomeClass someClassObj = new SomeClass();
+        try
+        {
+            someClassObj.CanThrowException();
+            someClassObj.CanThrowException();
+            someClassObj.CanThrowException();
+            someClassObj.CanThrowException();
+            someClassObj.CanThrowException();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Exception caught: {e.Message}");
+        }
+    }
+}
