@@ -1,0 +1,42 @@
+using System;
+
+public interface IClonable<T>
+{
+    T Clone();
+}
+
+public class MyData : IClonable<MyData>
+{
+    public int MyInt { get; set; }
+    public string MyString { get; set; }
+
+    public MyData(int myInt, string myString)
+    {
+        MyInt = myInt;
+        MyString = myString;
+    }
+
+    public MyData Clone()
+    {
+        return MemberwiseClone() as MyData;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            MyData original = new MyData(42, "Hello, World!");
+            MyData copy = original.Clone();
+
+            Console.WriteLine($"Original: {original.MyInt}, {original.MyString}");
+            Console.WriteLine($"Copy: {copy.MyInt}, {copy.MyString}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+}
