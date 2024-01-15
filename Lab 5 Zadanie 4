@@ -1,0 +1,76 @@
+using System;
+using System.Collections;
+using System.Reflection;
+
+class Program
+{
+    static void Main()
+    {
+        MyClass original = new MyClass() { Name = "Original", Value = 42 };
+        MyClass copy = CopyObject(original);
+
+        Console.WriteLine("Original: " + original);
+        Console.WriteLine("Copy: " + copy);
+
+        try
+        {
+            MyClass nullObject = null;
+            MyClass copyNull = CopyObject(nullObject);
+        }
+        catch (ArgumentNullException ex)
+        {
+            Console.WriteLine("Exception: " + ex.Message);
+        }
+    }
+
+    static T CopyObject<T>(T original)
+    {
+        if (original == null)
+        {
+            throw new ArgumentNullException(nameof(original), "Cannot copy null object.");
+        }
+
+        Type type = original.GetType();
+        T copy = (T)Activator.CreateInstance(type);
+
+        foreach (FieldInfo field in type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+        {
+            object value = field.GetValue(original);
+            field.SetValue(copy, value);
+        }
+
+        foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+        {
+            if (property.CanWrite)
+            {
+                object value = property.GetValue(original);
+                property.SetValue(copy, value);
+            }
+        }
+
+        return copy;
+    }
+}
+
+class MyClass
+{
+    private string name;
+    private int value;
+
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+
+    public int Value
+    {
+        get { return value; }
+        set { this.value = value; }
+    }
+
+    public override string ToString()
+    {
+        return $"Name: {Name}, Value: {Value}";
+    }
+}
