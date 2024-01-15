@@ -1,0 +1,109 @@
+using System;
+
+public class Osoba
+{
+    protected string Imie;
+    protected string Nazwisko;
+    protected string Pesel;
+
+    public virtual void SetFirstName(string imie)
+    {
+        Imie = imie;
+    }
+
+    public virtual void SetLastName(string nazwisko)
+    {
+        Nazwisko = nazwisko;
+    }
+
+    public virtual void SetPesel(string pesel)
+    {
+        Pesel = pesel;
+    }
+
+    public virtual int GetAge()
+    {
+        int rokUrodzenia = int.Parse(Pesel.Substring(0, 2));
+        int wiek = DateTime.Now.Year - (rokUrodzenia + 1900);
+        return wiek;
+    }
+
+    public virtual string GetGender()
+    {
+        int pozycja = int.Parse(Pesel.Substring(9, 1));
+        return (pozycja % 2 == 0) ? "Kobieta" : "Mężczyzna";
+    }
+
+    public virtual string GetEducationInfo()
+    {
+        return "Brak informacji o edukacji";
+    }
+
+    public virtual string GetFullName()
+    {
+        return $"{Imie} {Nazwisko}";
+    }
+
+    public virtual bool CanGoAloneToHome()
+    {
+        return false;
+    }
+}
+
+public class Uczen : Osoba
+{
+    private string klasa;
+
+    public Uczen(string imie, string nazwisko, string pesel, string klasa)
+    {
+        SetFirstName(imie);
+        SetLastName(nazwisko);
+        SetPesel(pesel);
+        this.klasa = klasa;
+    }
+
+    public override bool CanGoAloneToHome()
+    {
+        return (GetAge() >= 13);
+    }
+
+    public override string GetEducationInfo()
+    {
+        return $"Uczeń klasy {klasa}";
+    }
+}
+
+public class Nauczyciel : Osoba
+{
+    private string przedmiot;
+
+    public Nauczyciel(string imie, string nazwisko, string pesel, string przedmiot)
+    {
+        SetFirstName(imie);
+        SetLastName(nazwisko);
+        SetPesel(pesel);
+        this.przedmiot = przedmiot;
+    }
+
+    public override bool CanGoAloneToHome()
+    {
+        return false;
+    }
+
+    public override string GetEducationInfo()
+    {
+        return $"Nauczyciel przedmiotu: {przedmiot}";
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Osoba uczen1 = new Uczen("Jan", "Kowalski", "01010112345", "1A");
+        Osoba nauczyciel1 = new Nauczyciel("Anna", "Nowak", "90010198765", "Matematyka");
+
+        Console.WriteLine($"{uczen1.GetFullName()} - {uczen1.CanGoAloneToHome()}");
+        Console.WriteLine($"{nauczyciel1.GetFullName()} - {nauczyciel1.CanGoAloneToHome()}");
+    }
+}
