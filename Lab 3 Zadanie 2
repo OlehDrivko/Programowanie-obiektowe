@@ -1,0 +1,111 @@
+using System.ComponentModel.Design;
+
+namespace ConsoleApp7
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            SamochodOsobowy SamochodOsobowy_1 = new(marka: "Passat", model: "B6", kolor: "czarny", nadwozie: "Universal", rokProdukcji: 2006, przebieg: 276000, waga: 1600, pojemnoscSilnika: 2, iloscOsob: 5);
+            SamochodOsobowy_1.ShowInfo();
+        }
+
+        class Samochod
+        {
+            public string Marka { get; set; }
+            public string Model { get; set; }
+            public string Nadwozie { get; set; }
+            public string Kolor { get; set; }
+            public int RokProdukcji { get; set; }
+            public double Przebieg
+            {
+                set
+                {
+                    if (value < 0)
+                    {
+                        Console.WriteLine("Przebieg nie może być ujemny.");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                    else { Przebieg = value; }
+
+                }
+                get { return Przebieg; }
+            }
+            public Samochod(string Marka, string Model, string Nadwozie, string Kolor, int RokProdukcji, double Przebieg)
+            {
+                this.Marka = Marka;
+                this.Model = Model;
+                this.Nadwozie = Nadwozie;
+                this.Kolor = Kolor;
+                this.RokProdukcji = RokProdukcji;
+                this.Przebieg = Przebieg;
+
+            }
+            public void ShowInfo()
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Marka: {Marka};" +
+                                  $"\nModel: {Model};" +
+                                  $"\nNadwozie: {Nadwozie};" +
+                                  $"\nKolor: {Kolor};" +
+                                  $"\nRok produkcji: {RokProdukcji};" +
+                                  $"\nPrzebieg: {Przebieg} tys. km.;");
+
+            }
+
+            class SamochodOsobowy : Samochod
+            {
+
+
+                public int Waga
+                {
+                    set
+                    {
+                        if (value >= 2000 && value <= 4500)
+                        {
+                            Waga = value;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Niepoprawna waga!");
+                            Console.ReadKey();
+                            Environment.Exit(0);
+                        }
+                    }
+                    get { return Waga; }
+                }
+                public double PojemnoscSilnika
+                {
+                    set
+                    {
+                        if (value >= 0.8 && value <= 3.0)
+                        {
+                            PojemnoscSilnika = value;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Niepoprawna Pojemność silnika!");
+                            Console.ReadKey();
+                            Environment.Exit(0);
+                        }
+                    }
+                    get { return PojemnoscSilnika; }
+                }
+                public int IloscOsob { get; set; }
+
+                public SamochodOsobowy(string Marka, string Model, string Nadwozie, string Kolor, int RokProdukcji, double Przebieg) : base(Marka, Model, Nadwozie, Kolor, RokProdukcji, Przebieg)
+                {
+                    this.PojemnoscSilnika = PojemnoscSilnika;
+                    this.Waga = Waga;
+                    this.IloscOsob = IloscOsob;
+                }
+                public void ShowInfo()
+                {
+                    base.ShowInfo();
+                    Console.WriteLine($"Waga: {Waga};\nPojemnosc silnika: {PojemnoscSilnika};\nIlosc osob: {IloscOsob}.");
+                }
+            }
+        }
+    }
+}
