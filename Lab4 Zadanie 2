@@ -1,45 +1,43 @@
 using System;
+using System.Collections.Generic;
 
-public class Osoba
+class Osoba
 {
-    protected string Imie;
-    protected string Nazwisko;
-    protected string Pesel;
+    public string Imie { get; set; }
+    public string Nazwisko { get; set; }
+    public string Pesel { get; set; }
 
-    public virtual void SetFirstName(string imie)
+    public void SetFirstName(string imie)
     {
         Imie = imie;
     }
 
-    public virtual void SetLastName(string nazwisko)
+    public void SetLastName(string nazwisko)
     {
         Nazwisko = nazwisko;
     }
 
-    public virtual void SetPesel(string pesel)
+    public void SetPesel(string pesel)
     {
         Pesel = pesel;
     }
 
-    public virtual int GetAge()
+    public int GetAge()
     {
-        int rokUrodzenia = int.Parse(Pesel.Substring(0, 2));
-        int wiek = DateTime.Now.Year - (rokUrodzenia + 1900);
-        return wiek;
+        return 0;
     }
 
-    public virtual string GetGender()
+    public string GetGender()
     {
-        int pozycja = int.Parse(Pesel.Substring(9, 1));
-        return (pozycja % 2 == 0) ? "Kobieta" : "Mężczyzna";
+        return "";
     }
 
     public virtual string GetEducationInfo()
     {
-        return "Brak informacji o edukacji";
+        return "Osoba";
     }
 
-    public virtual string GetFullName()
+    public string GetFullName()
     {
         return $"{Imie} {Nazwisko}";
     }
@@ -50,49 +48,60 @@ public class Osoba
     }
 }
 
-public class Uczen : Osoba
+class Uczen : Osoba
 {
-    private string klasa;
+    public string Szkola { get; set; }
+    public bool MozeSamWracacDoDomu { get; private set; }
 
-    public Uczen(string imie, string nazwisko, string pesel, string klasa)
+    public void SetSchool(string szkola)
     {
-        SetFirstName(imie);
-        SetLastName(nazwisko);
-        SetPesel(pesel);
-        this.klasa = klasa;
+        Szkola = szkola;
     }
 
-    public override bool CanGoAloneToHome()
+    public void ChangeSchool(string nowaSzkola)
     {
-        return (GetAge() >= 13);
+        Szkola = nowaSzkola;
+    }
+
+    public void SetCanGoHomeAlone(bool mozeSam)
+    {
+        MozeSamWracacDoDomu = mozeSam;
     }
 
     public override string GetEducationInfo()
     {
-        return $"Uczeń klasy {klasa}";
+        return $"Uczeń, szkoła: {Szkola}";
+    }
+
+    public override bool CanGoAloneToHome()
+    {
+        if (GetAge() < 12 && !MozeSamWracacDoDomu)
+        {
+            return false;
+        }
+        return true;
     }
 }
 
-public class Nauczyciel : Osoba
+class Nauczyciel : Uczen
 {
-    private string przedmiot;
+    public string TytulNaukowy { get; set; }
+    public List<Uczen> PodwladniUczniowie { get; set; }
 
-    public Nauczyciel(string imie, string nazwisko, string pesel, string przedmiot)
+    public Nauczyciel()
     {
-        SetFirstName(imie);
-        SetLastName(nazwisko);
-        SetPesel(pesel);
-        this.przedmiot = przedmiot;
+        PodwladniUczniowie = new List<Uczen>();
     }
 
-    public override bool CanGoAloneToHome()
+    public void WhichStudentCanGoHomeAlone(DateTime dateToCheck)
     {
-        return false;
-    }
-
-    public override string GetEducationInfo()
-    {
-        return $"Nauczyciel przedmiotu: {przedmiot}";
+        foreach (var uczen in PodwladniUczniowie)
+        {
+            if (uczen.CanGoAloneToHome())
+            {
+                Console.WriteLine($"{uczen.GetFullName()} może iść sam do domu.");
+            }
+        }
     }
 }
 
@@ -100,10 +109,30 @@ class Program
 {
     static void Main()
     {
-        Osoba uczen1 = new Uczen("Jan", "Kowalski", "01010112345", "1A");
-        Osoba nauczyciel1 = new Nauczyciel("Anna", "Nowak", "90010198765", "Matematyka");
+        Nauczyciel nauczyciel = new Nauczyciel();
+        nauczyciel.SetFirstName("Jan");
+        nauczyciel.SetLastName("Kowalski");
+        nauczyciel.SetPesel("12345678901");
+        nauczyciel.SetSchool("Szkoła Podstawowa nr 1");
+        nauczyciel.SetCanGoHomeAlone(true);
 
-        Console.WriteLine($"{uczen1.GetFullName()} - {uczen1.CanGoAloneToHome()}");
-        Console.WriteLine($"{nauczyciel1.GetFullName()} - {nauczyciel1.CanGoAloneToHome()}");
+        Uczen uczen1 = new Uczen();
+        uczen1.SetFirstName("Anna");
+        uczen1.SetLastName("Nowak");
+        uczen1.SetPesel("98765432101");
+        uczen1.SetSchool("Szkoła Podstawowa nr 1");
+        uczen1.SetCanGoHomeAlone(true);
+
+        Uczen uczen2 = new Uczen();
+        uczen2.SetFirstName("Tomasz");
+        uczen2.SetLastName("Wiśniewski");
+        uczen2.SetPesel("12312312312");
+        uczen2.SetSchool("Szkoła Podstawowa nr 1");
+        uczen2.SetCanGoHomeAlone(false);
+
+        nauczyciel.PodwladniUczniowie.Add(uczen1);
+        nauczyciel.PodwladniUczniowie.Add(uczen2);
+
+        nauczyciel.WhichStudentCanGoHomeAlone(DateTime.Now);
     }
 }
