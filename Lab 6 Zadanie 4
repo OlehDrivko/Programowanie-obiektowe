@@ -1,0 +1,174 @@
+using System;
+using System.IO;
+using Newtonsoft.Json.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        string sciezkaDoBazyDanych = "db.json";
+
+        AnalizujPopulacje(sciezkaDoBazyDanych, "Indii", 1970, 2000);
+        AnalizujPopulacje(sciezkaDoBazyDanych, "USA", 1965, 2010);
+        AnalizujPopulacje(sciezkaDoBazyDanych, "Chin", 1980, 2018);
+
+        WybierzRokIKraj(sciezkaDoBazyDanych);
+
+        SprawdzRoznicePopulacjiUzytkownika(sciezkaDoBazyDanych);
+
+        SprawdzProcentowyWzrostPopulacji(sciezkaDoBazyDanych);
+    }
+
+    static void AnalizujPopulacje(string sciezkaDoBazyDanych, string kraj, int rokPoczatkowy, int rokKoncowy)
+    {
+        var dane = WczytajDane(sciezkaDoBazyDanych);
+
+        if (dane != null && dane.ContainsKey(kraj))
+        {
+            var populacjaPoczatkowa = PobierzPopulacje(dane, kraj, rokPoczatkowy);
+            var populacjaKoncowa = PobierzPopulacje(dane, kraj, rokKoncowy);
+
+            if (populacjaPoczatkowa != null && populacjaKoncowa != null)
+            {
+                Console.WriteLine($"Różnica populacji w {kraj} pomiędzy {rokPoczatkowy} a {rokKoncowy}: {populacjaKoncowa - populacjaPoczatkowa}");
+            }
+            else
+            {
+                Console.WriteLine($"Brak danych populacji dla {kraj} w jednym z lat.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Brak danych populacji dla {kraj}.");
+        }
+    }
+
+    static void WybierzRokIKraj(string sciezkaDoBazyDanych)
+    {
+        var dane = WczytajDane(sciezkaDoBazyDanych);
+
+        if (dane != null)
+        {
+            Console.WriteLine("Dostępne kraje:");
+            foreach (var kraj in dane.Keys)
+            {
+                Console.WriteLine(kraj);
+            }
+
+            Console.Write("Podaj kraj: ");
+            string wybranyKraj = Console.ReadLine();
+
+            if (dane.ContainsKey(wybranyKraj))
+            {
+                Console.Write("Podaj rok: ");
+                if (int.TryParse(Console.ReadLine(), out int wybranyRok))
+                {
+                    var populacja = PobierzPopulacje(dane, wybranyKraj, wybranyRok);
+
+                    if (populacja != null)
+                    {
+                        Console.WriteLine($"Populacja w {wybranyKraj} w roku {wybranyRok}: {populacja}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Brak danych populacji dla {wybranyKraj} w roku {wybranyRok}.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Nieprawidłowy format roku.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Brak danych populacji dla {wybranyKraj}.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Brak danych populacji w bazie.");
+        }
+    }
+
+    static void SprawdzRoznicePopulacjiUzytkownika(string sciezkaDoBazyDanych)
+    {
+        Console.Write("Podaj kraj: ");
+        string wybranyKraj = Console.ReadLine();
+
+        Console.Write("Podaj rok początkowy: ");
+        if (int.TryParse(Console.ReadLine(), out int rokPoczatkowy))
+        {
+            Console.Write("Podaj rok końcowy: ");
+            if (int.TryParse(Console.ReadLine(), out int rokKoncowy))
+            {
+                AnalizujPopulacje(sciezkaDoBazyDanych, wybranyKraj, rokPoczatkowy, rokKoncowy);
+            }
+            else
+            {
+                Console.WriteLine("Nieprawidłowy format roku końcowego.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Nieprawidłowy format roku początkowego.");
+        }
+    }
+
+    static void SprawdzProcentowyWzrostPopulacji(string sciezkaDoBazyDanych)
+    {
+        var dane = WczytajDane(sciezkaDoBazyDanych);
+
+        if (dane != null)
+        {
+            foreach (var kraj in dane.Keys)
+            {
+                var lata = dane[kraj].ToObject<Dictionary<string, int>>();
+                int poprzedniRok = 0;
+
+                foreach (var rok in lata.Keys)
+                {
+                    if (poprzedniRok != 0)
+                    {
+                        int wzrostProcentowy = ((lata[rok] - poprzedniRok) * 100) / poprzedniRok;
+                        Console.WriteLine($"Wzrost populacji w {kraj} w roku {rok}: {wzrostProcentowy}%");
+                    }
+
+                    poprzedniRok = lata[rok];
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Brak danych populacji w bazie.");
+        }
+    }
+
+    static JObject WczytajDane(string sciezkaDoBazyDanych)
+    {
+        try
+        {
+            if (File.Exists(sciezkaDoBazyDanych))
+            {
+                string json = File.ReadAllText(sciezkaDoBazyDanych);
+                return JObject.Parse(json);
+            }
+            else
+            {
+                Console.WriteLine($"Plik {sciezkaDoBazyDanych} nie istnieje.");
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Wystąpił błąd podczas wczytywania danych: {ex.Message}");
+            return null;
+        }
+    }
+
+    static int? PobierzPopulacje(Dictionary<string, JToken> dane, string kraj, int rok)
+    {
+        var lata = dane[kraj].ToObject<Dictionary<string, int>>();
+
+        return lata.ContainsKey(rok.ToString()) ? lata[rok.ToString()] : (int?)null;
+    }
+}
