@@ -1,0 +1,125 @@
+using System.ComponentModel.Design;
+using static ConsoleApp7.Program.Person;
+
+namespace ConsoleApp7
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Person Harry = new(FirstName: "Harry", LastName: "Potter", Wiek: 18);
+            Person Aala = new(FirstName: "Aala", LastName: "rubin", Wiek: 23);
+            Person Matsvei = new(FirstName: "Matsvei", LastName: "Chystsiakou", Wiek: 19);
+            Harry.View();
+            Aala.View();
+            Matsvei.View();
+
+            Book Math = new(Title:"MAth",Author:Harry,DataWydania:new(2002,12,30));
+            Book Language = new(Title:"UKR",Author:Aala,DataWydania:new(2022,3,23));
+            Book History = new(Title:"MAth",Author:Matsvei,DataWydania:new(1999,11,4));
+            Math.View();
+            Language.View();
+            History.View();
+
+
+
+            Reader Reader1 = new(FirstName:"Oleh", LastName: "Drivko", Wiek:18);
+            Reader Reader2 = new(FirstName:"Ostap", LastName: "Fedun", Wiek:32);
+            Reader Reader3 = new(FirstName:"Motia", LastName: "Duch", Wiek:12);
+
+            Reader1.BooksRead.Add(Math); Reader2.BooksRead.Add(Language); Reader3.BooksRead.Add(History);
+            Reader1.ViewBook();
+            Reader2.ViewBook();
+            Reader3.ViewBook();
+
+            Person o = new Reader(FirstName: "O", LastName: "O", Wiek: 0);
+            o.View();
+
+
+
+            Reviewer reviewer1 = new(FirstName: "Oleh", LastName: "Drivko", Wiek: 18);
+            reviewer1.Wypisz();
+
+
+        }
+
+        public class Person
+        {
+            private string FirstName { get; set; }
+            private string LastName { get; set; }
+            private int? Wiek { get; set; }
+
+            public Person(string FirstName, string LastName, int Wiek) {
+                this.FirstName = FirstName;               
+                this.LastName = LastName;               
+                this.Wiek = Wiek;               
+            }
+
+            public virtual void View()
+            {
+                Console.WriteLine();
+                Console.WriteLine("Osoba :");
+                Console.WriteLine($"FirstName: {FirstName}\n LastName: {LastName}\n Wiek: {Wiek} ") ;
+            }
+
+            internal class Book
+            {
+                public string Title { get; set; }
+                public Person Author{ get; set; }
+                public DateOnly DataWydania { get; set; }
+
+
+                public Book(string Title, Person Author, DateOnly DataWydania)
+                {
+                    
+                    this.Title = Title;
+                    this.Author = Author;
+                    this.DataWydania = DataWydania;
+                }  
+                
+                public virtual void View()
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Book :");
+                    Console.WriteLine($"Title: {Title}\n Author: {Author.FirstName} {Author.LastName}\n DataWydania: {DataWydania}");
+                }
+            }
+        public class Reader : Person
+            {
+                public List<Book> BooksRead;
+                public Reader(string FirstName, string LastName, int Wiek) : base(FirstName, LastName, Wiek)
+                {
+                    BooksRead = new List<Book>();
+                }
+
+                public void ViewBook()
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Ksiazki przeczytane przez: " + FirstName + " " + LastName);
+                    foreach (var Book in BooksRead)
+                    {
+                        Console.WriteLine(Book.Title);
+                    }
+                }
+                
+            }
+        }
+        internal class Reviewer : Reader
+        {
+            public Reviewer(string FirstName, string LastName, int Wiek) : base(FirstName, LastName, Wiek)
+            {
+            }
+
+            public void Wypisz()
+            {
+                Console.WriteLine();
+                Console.WriteLine("Ocena recenzenta:");
+                foreach (var book in BooksRead)
+                {
+                    Console.WriteLine(value: $"Ocena dla książki  : {new Random().Next(10)} ");
+                }
+            }
+
+        }
+    }
+}
