@@ -1,0 +1,59 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            ThrowRandomException();
+        }
+        catch (Exception1 ex1)
+        {
+            Console.WriteLine("Złapany wyjątek Exception1: " + ex1.Message);
+        }
+        catch (Exception2 ex2)
+        {
+            Console.WriteLine("Złapany wyjątek Exception2: " + ex2.Message);
+        }
+        catch (Exception3 ex3)
+        {
+            Console.WriteLine("Złapany wyjątek Exception3: " + ex3.Message);
+        }
+
+        Console.ReadLine();
+    }
+
+    static void ThrowRandomException()
+    {
+        Random random = new Random();
+        int randomNumber = random.Next(1, 4);
+
+        switch (randomNumber)
+        {
+            case 1:
+                throw new Exception1("To jest Exception1");
+            case 2:
+                throw new Exception2("To jest Exception2");
+            case 3:
+                throw new Exception3("To jest Exception3");
+            default:
+                break;
+        }
+    }
+}
+
+class Exception1 : Exception
+{
+    public Exception1(string message) : base(message) { }
+}
+
+class Exception2 : Exception
+{
+    public Exception2(string message) : base(message) { }
+}
+
+class Exception3 : Exception
+{
+    public Exception3(string message) : base(message) { }
+}
