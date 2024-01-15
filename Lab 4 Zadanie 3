@@ -1,0 +1,106 @@
+using System;
+using System.Collections.Generic;
+
+public interface IOsoba
+{
+    string Imie { get; set; }
+    string Nazwisko { get; set; }
+    void ZwrocPelnaNazwe();
+}
+
+public static class ListExtensions
+{
+    public static void WypiszOsoby(this List<IOsoba> lista)
+    {
+        foreach (var osoba in lista)
+        {
+            Console.WriteLine($"{osoba.Imie} {osoba.Nazwisko}");
+        }
+    }
+
+    public static void PosortujOsobyPoNazwisku(this List<IOsoba> lista)
+    {
+        lista.Sort((os1, os2) => os1.Nazwisko.CompareTo(os2.Nazwisko));
+    }
+}
+
+public interface IStudent : IOsoba
+{
+    string Uczelnia { get; set; }
+    string Kierunek { get; set; }
+    int Rok { get; set; }
+    int Semestr { get; set; }
+}
+
+public class Osoba : IOsoba
+{
+    public string Imie { get; set; }
+    public string Nazwisko { get; set; }
+
+    public void ZwrocPelnaNazwe()
+    {
+        Console.WriteLine($"{Imie} {Nazwisko}");
+    }
+}
+
+public class Student : IStudent
+{
+    public string Imie { get; set; }
+    public string Nazwisko { get; set; }
+    public string Uczelnia { get; set; }
+    public string Kierunek { get; set; }
+    public int Rok { get; set; }
+    public int Semestr { get; set; }
+
+    public void ZwrocPelnaNazwe()
+    {
+        Console.WriteLine($"{Imie} {Nazwisko} – {Rok}{Semestr}{Kierunek} {Uczelnia}");
+    }
+}
+
+public class StudentWSIiZ : Student
+{
+    public void WypiszPelnaNazweIUczelnie()
+    {
+        Console.WriteLine($"{Imie} {Nazwisko} – {Rok}{Semestr}{Kierunek} {Uczelnia}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        List<IOsoba> listaOsob = new List<IOsoba>
+        {
+            new Osoba { Imie = "Jan", Nazwisko = "Kowalski" },
+            new Osoba { Imie = "Anna", Nazwisko = "Nowak" },
+            new Osoba { Imie = "Piotr", Nazwisko = "Wojcik" }
+        };
+
+        listaOsob.WypiszOsoby();
+
+        listaOsob.PosortujOsobyPoNazwisku();
+        Console.WriteLine("Po posortowaniu:");
+        listaOsob.WypiszOsoby();
+
+        List<IOsoba> listaStudentow = new List<IOsoba>
+        {
+            new Student { Imie = "Jan", Nazwisko = "Kowalski", Uczelnia = "WSIiZ", Kierunek = "Informatyka", Rok = 4, Semestr = 1 },
+            new Student { Imie = "Anna", Nazwisko = "Nowak", Uczelnia = "WSIiZ", Kierunek = "Ekonomia", Rok = 3, Semestr = 2 },
+            new Student { Imie = "Piotr", Nazwisko = "Wojcik", Uczelnia = "WSIiZ", Kierunek = "Logistyka", Rok = 2, Semestr = 2 }
+        };
+
+        Console.WriteLine("Studenci:");
+        listaStudentow.WypiszOsoby();
+
+        List<IOsoba> listaStudentowWSIiZ = new List<IOsoba>
+        {
+            new StudentWSIiZ { Imie = "Jan", Nazwisko = "Kowalski", Uczelnia = "WSIiZ", Kierunek = "Informatyka", Rok = 4, Semestr = 1 },
+            new StudentWSIiZ { Imie = "Anna", Nazwisko = "Nowak", Uczelnia = "WSIiZ", Kierunek = "Ekonomia", Rok = 3, Semestr = 2 },
+            new StudentWSIiZ { Imie = "Piotr", Nazwisko = "Wojcik", Uczelnia = "WSIiZ", Kierunek = "Logistyka", Rok = 2, Semestr = 2 }
+        };
+
+        Console.WriteLine("Studenci WSIiZ:");
+        listaStudentowWSIiZ.WypiszOsoby();
+    }
+}
