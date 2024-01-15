@@ -1,0 +1,67 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        string nazwaPliku = "pesels.txt";
+
+        List<string> pesels = WczytajPeseleZPliku(nazwaPliku);
+
+        if (pesels.Count == 0)
+        {
+            Console.WriteLine("Brak PESELi do przetworzenia.");
+            return;
+        }
+
+        int iloscZenskichPeseli = IloscZenskichPeseli(pesels);
+
+        Console.WriteLine($"Liczba żeńskich PESELi: {iloscZenskichPeseli}");
+    }
+
+    static List<string> WczytajPeseleZPliku(string nazwaPliku)
+    {
+        List<string> pesels = new List<string>();
+
+        try
+        {
+            if (File.Exists(nazwaPliku))
+            {
+                pesels = new List<string>(File.ReadAllLines(nazwaPliku));
+            }
+            else
+            {
+                Console.WriteLine($"Plik {nazwaPliku} nie istnieje.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Wystąpił błąd podczas wczytywania pliku: {ex.Message}");
+        }
+
+        return pesels;
+    }
+
+    static int IloscZenskichPeseli(List<string> pesels)
+    {
+        int iloscZenskich = 0;
+
+        foreach (var pesel in pesels)
+        {
+            if (CzyZenskiPesel(pesel))
+            {
+                iloscZenskich++;
+            }
+        }
+
+        return iloscZenskich;
+    }
+
+    static bool CzyZenskiPesel(string pesel)
+    {
+        int dziewiatyZnak = int.Parse(pesel[8].ToString());
+        return dziewiatyZnak % 2 == 0;
+    }
+}
