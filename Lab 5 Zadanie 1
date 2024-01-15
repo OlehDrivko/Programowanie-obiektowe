@@ -1,0 +1,31 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            PrintLength(null);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("StackTrace:\n" + ex.StackTrace);
+        }
+    }
+
+    static void PrintLength(string input)
+    {
+        try
+        {
+            int length = input.Length;
+            Console.WriteLine($"Długość napisu: {length}");
+        }
+        catch (NullReferenceException ex)
+        {
+            Console.WriteLine($"Wyjątek: {ex.Message}");
+
+            throw new Exception("Wystąpił błąd przy obliczaniu długości napisu.", ex);
+        }
+    }
+}
