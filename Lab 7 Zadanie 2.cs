@@ -212,7 +212,7 @@ class Program
     {
         try
         {
-            using (SqlConnection connection = new SqlConnection("YourConnectionString")) // Zastąp odpowiednią wartością
+            using (SqlConnection connection = new SqlConnection("ConnectionString")) 
             {
                 connection.Open();
 
